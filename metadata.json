@@ -1,0 +1,6 @@
+{
+  "name": "Kabadi Sphere E-Waste",
+  "description": "Logistics platform for doorstep e-waste recycling, featuring AI electronic scrap identification, government policy insights, live precious metal commodity rates, and certified green payouts.",
+  "requestFramePermissions": ["camera", "geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
