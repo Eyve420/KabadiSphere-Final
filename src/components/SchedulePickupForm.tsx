@@ -391,10 +391,10 @@ export const SchedulePickupForm: React.FC<SchedulePickupFormProps> = ({
           <div>
             <label className="block text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
               <MapPin className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
-              5. Household Address & Pickup Location
+              {language === 'hi' ? '5. घरेलू पता और पिकअप स्थान' : '5. Household Address & Pickup Location'}
             </label>
             <p className="text-xs text-slate-500 dark:text-slate-400">
-              Collector coordinates with you directly upon doorstep arrival. Zero logistics fee.
+              {language === 'hi' ? 'कलेक्टर आपके दरवाजे पर पहुंचने पर सीधे आपसे संपर्क करेगा। शून्य रसद शुल्क।' : 'Collector coordinates with you directly upon doorstep arrival. Zero logistics fee.'}
             </p>
           </div>
 
@@ -408,12 +408,12 @@ export const SchedulePickupForm: React.FC<SchedulePickupFormProps> = ({
             {isDetectingLocation ? (
               <>
                 <Loader2 className="h-3.5 w-3.5 animate-spin text-emerald-600 dark:text-emerald-400" />
-                <span>Acquiring GPS Fix...</span>
+                <span>{language === 'hi' ? 'GPS लोकेशन खोजी जा रही है...' : 'Acquiring GPS Fix...'}</span>
               </>
             ) : (
               <>
                 <Crosshair className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
-                <span>Auto-Detect Current Location</span>
+                <span>{language === 'hi' ? 'वर्तमान स्थान स्वचालित रूप से खोजें' : 'Auto-Detect Current Location'}</span>
               </>
             )}
           </button>
@@ -424,10 +424,10 @@ export const SchedulePickupForm: React.FC<SchedulePickupFormProps> = ({
           <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1 flex items-center justify-between">
             <span className="flex items-center gap-1.5">
               <Search className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
-              Search Colony, Society, Street, or Landmark
+              {language === 'hi' ? 'कॉलोनी, सोसायटी, गली या लैंडमार्क खोजें' : 'Search Colony, Society, Street, or Landmark'}
             </span>
             <span className="text-[10px] text-slate-400 dark:text-slate-500 font-normal">
-              Type 2+ letters to auto-complete
+              {language === 'hi' ? 'स्वतः पूर्ण करने के लिए 2+ अक्षर लिखें' : 'Type 2+ letters to auto-complete'}
             </span>
           </label>
           <div className="relative">
@@ -438,7 +438,7 @@ export const SchedulePickupForm: React.FC<SchedulePickupFormProps> = ({
               onFocus={() => {
                 if (searchResults.length > 0) setShowSearchResults(true);
               }}
-              placeholder="e.g. Indiranagar Sector 14, DLF Phase 2, Powai Lake, or Whitefield..."
+              placeholder={language === 'hi' ? 'उदा. इंदिरानगर, डीएलएफ फेज 2...' : 'e.g. Indiranagar Sector 14, DLF Phase 2, Powai Lake, or Whitefield...'}
               className="w-full rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/80 px-3.5 py-2.5 pl-9 text-xs font-medium text-slate-800 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 shadow-2xs focus:border-emerald-600 focus:bg-white dark:focus:bg-slate-800 focus:outline-hidden transition-colors"
             />
             <Search className="absolute left-3 top-3 h-3.5 w-3.5 text-slate-400 dark:text-slate-500 pointer-events-none" />
@@ -497,7 +497,7 @@ export const SchedulePickupForm: React.FC<SchedulePickupFormProps> = ({
 
           {showSearchResults && searchResults.length === 0 && !isSearching && searchQuery.trim().length >= 2 && (
             <div className="absolute z-20 mt-1.5 w-full rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-xl p-3 text-center text-xs text-slate-500 dark:text-slate-400">
-              No matching location found. You can enter your street and city manually below.
+              {language === 'hi' ? 'कोई मेल खाता स्थान नहीं मिला। आप अपना विवरण नीचे मैन्युअल रूप से दर्ज कर सकते हैं।' : 'No matching location found. You can enter your street and city manually below.'}
             </div>
           )}
         </div>

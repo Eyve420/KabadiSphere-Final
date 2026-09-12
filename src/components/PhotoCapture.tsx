@@ -48,6 +48,14 @@ export const PhotoCapture: React.FC<PhotoCaptureProps> = ({
     };
   }, []);
 
+  // Connect stream to video element when it becomes available
+  useEffect(() => {
+    if (isCameraActive && videoRef.current && streamRef.current) {
+      videoRef.current.srcObject = streamRef.current;
+      videoRef.current.play().catch(console.error);
+    }
+  }, [isCameraActive]);
+
   const startCamera = async () => {
     setCameraError(null);
     try {
@@ -56,10 +64,6 @@ export const PhotoCapture: React.FC<PhotoCaptureProps> = ({
       });
       streamRef.current = stream;
       setIsCameraActive(true);
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-        videoRef.current.play();
-      }
     } catch (err: any) {
       console.error('Camera access error:', err);
       setCameraError('Camera access unavailable or permission denied. You can upload an image or choose a demo sample.');
@@ -247,10 +251,10 @@ export const PhotoCapture: React.FC<PhotoCaptureProps> = ({
         <div>
           <label className="block text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
             <Scan className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
-            1. Photo Capture & AI Material Scanner
+            {language === 'hi' ? '1. फोटो कैप्चर और AI सामग्री स्कैनर' : '1. Photo Capture & AI Material Scanner'}
           </label>
           <p className="text-xs text-slate-500 dark:text-slate-400">
-            Snap or upload a picture. Gemini AI identifies the e-waste category and sets the benchmark recycling rate.
+            {language === 'hi' ? 'कोई फोटो खींचें या अपलोड करें। Gemini AI ई-कचरे की पहचान करेगा।' : 'Snap or upload a picture. Gemini AI identifies the e-waste category and sets the benchmark recycling rate.'}
           </p>
         </div>
 
@@ -261,7 +265,7 @@ export const PhotoCapture: React.FC<PhotoCaptureProps> = ({
             className="flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 transition-colors cursor-pointer"
           >
             <X className="h-3.5 w-3.5" />
-            Retake / Clear
+            {language === 'hi' ? 'फिर से लें / साफ करें' : 'Retake / Clear'}
           </button>
         )}
       </div>
@@ -279,7 +283,7 @@ export const PhotoCapture: React.FC<PhotoCaptureProps> = ({
 
           <div className="absolute top-3 left-3 flex items-center gap-1.5 rounded-full bg-emerald-950/80 px-2.5 py-1 text-xs font-semibold text-emerald-300 backdrop-blur-xs">
             <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
-            Live AI Camera Active
+            {language === 'hi' ? 'लाइव AI कैमरा चालू' : 'Live AI Camera Active'}
           </div>
 
           <div className="absolute bottom-4 inset-x-0 flex items-center justify-center gap-3">
@@ -289,14 +293,14 @@ export const PhotoCapture: React.FC<PhotoCaptureProps> = ({
               className="flex items-center gap-2 rounded-full bg-emerald-500 px-5 py-2.5 text-sm font-bold text-slate-950 shadow-lg hover:bg-emerald-400 active:scale-95 transition-all cursor-pointer"
             >
               <Camera className="h-4 w-4" />
-              Capture Photo
+              {language === 'hi' ? 'फोटो लें' : 'Capture Photo'}
             </button>
             <button
               type="button"
               onClick={stopCamera}
               className="rounded-full bg-slate-900/80 px-4 py-2.5 text-xs font-semibold text-white backdrop-blur-xs hover:bg-slate-800 cursor-pointer"
             >
-              Cancel
+              {language === 'hi' ? 'रद्द करें' : 'Cancel'}
             </button>
           </div>
         </div>
@@ -318,7 +322,7 @@ export const PhotoCapture: React.FC<PhotoCaptureProps> = ({
                 <div className="w-full absolute top-0 animate-[bounce_2s_infinite] h-1 bg-gradient-to-r from-transparent via-emerald-400 to-transparent shadow-[0_0_15px_#10b981]" />
                 <div className="flex items-center gap-2 rounded-full bg-emerald-900/90 px-4 py-2 text-xs font-semibold text-emerald-100 shadow-xl border border-emerald-500/50">
                   <RefreshCw className="h-3.5 w-3.5 animate-spin text-emerald-400" />
-                  Gemini AI scanning material composition...
+                  {language === 'hi' ? 'Gemini AI सामग्री का विश्लेषण कर रहा है...' : 'Gemini AI scanning material composition...'}
                 </div>
               </div>
             )}
@@ -335,14 +339,14 @@ export const PhotoCapture: React.FC<PhotoCaptureProps> = ({
                   <div>
                     <div className="flex items-center gap-2">
                       <span className="text-xs text-emerald-400 font-semibold tracking-wide uppercase">
-                        AI Identified Scrap Category
+                        {language === 'hi' ? 'AI द्वारा पहचानी गई स्क्रैप श्रेणी' : 'AI Identified Scrap Category'}
                       </span>
                       <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 text-[11px] font-bold text-emerald-300 border border-emerald-500/30">
-                        {scanResult.confidence}% match
+                        {scanResult.confidence}% {language === 'hi' ? 'सटीक' : 'match'}
                       </span>
                     </div>
                     <div className="text-base font-bold text-white flex items-center gap-2">
-                      {scanResult.categoryName}
+                      {language === 'hi' && scanResult.categoryNameHindi ? scanResult.categoryNameHindi : scanResult.categoryName}
                       <CheckCircle2 className="h-4 w-4 text-emerald-400" />
                     </div>
                   </div>
@@ -354,7 +358,7 @@ export const PhotoCapture: React.FC<PhotoCaptureProps> = ({
                   className="flex items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-800/80 px-3 py-1.5 text-xs font-semibold text-slate-300 hover:bg-slate-700 hover:text-white transition-colors cursor-pointer"
                 >
                   <SlidersHorizontal className="h-3.5 w-3.5 text-emerald-400" />
-                  Manual Override
+                  {language === 'hi' ? 'मैन्युअल बदलाव' : 'Manual Override'}
                 </button>
               </div>
 
@@ -362,7 +366,7 @@ export const PhotoCapture: React.FC<PhotoCaptureProps> = ({
               <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
                 {scanResult.detectedItems?.length > 0 && (
                   <div className="rounded-lg bg-slate-800/60 p-2.5 border border-slate-700/50">
-                    <span className="font-semibold text-slate-300">Detected items:</span>
+                    <span className="font-semibold text-slate-300">{language === 'hi' ? 'पहचाने गए आइटम:' : 'Detected items:'}</span>
                     <div className="mt-1 flex flex-wrap gap-1">
                       {scanResult.detectedItems.map((item, idx) => (
                         <span
@@ -378,7 +382,7 @@ export const PhotoCapture: React.FC<PhotoCaptureProps> = ({
 
                 <div className="rounded-lg bg-slate-800/60 p-2.5 border border-slate-700/50">
                   <div className="flex items-center justify-between">
-                    <span className="font-semibold text-slate-300">Purity condition:</span>
+                    <span className="font-semibold text-slate-300">{language === 'hi' ? 'शुद्धता:' : 'Purity condition:'}</span>
                     <span className="text-emerald-400 font-medium text-[11px]">{scanResult.purityEstimate}</span>
                   </div>
                   <p className="mt-1 text-[11px] text-slate-400">{scanResult.recyclingAdvice}</p>
@@ -396,11 +400,11 @@ export const PhotoCapture: React.FC<PhotoCaptureProps> = ({
                       </span>{' '}
                       <span className="font-bold text-white bg-emerald-700/80 px-2 py-0.5 rounded text-[11px] inline-block ml-1">
                         {scanResult.suggestedWeightCategory === 'light'
-                          ? (language === 'hi' ? 'हल्का भार (< 10 kg)' : 'Light Volume (< 10 kg)')
+                          ? (language === 'hi' ? 'हल्का भार (< 10 किलो)' : 'Light Volume (< 10 kg)')
                           : scanResult.suggestedWeightCategory === 'bulk'
-                          ? (language === 'hi' ? 'थोक स्क्रैप (> 50 kg)' : 'Bulk Scrap (> 50 kg)')
-                          : (language === 'hi' ? 'मध्यम भार (10 – 50 kg)' : 'Medium Volume (10 – 50 kg)')}
-                        {scanResult.suggestedWeightKg ? ` • ~${scanResult.suggestedWeightKg} kg` : ''}
+                          ? (language === 'hi' ? 'थोक स्क्रैप (> 50 किलो)' : 'Bulk Scrap (> 50 kg)')
+                          : (language === 'hi' ? 'मध्यम भार (10 – 50 किलो)' : 'Medium Volume (10 – 50 kg)')}
+                        {scanResult.suggestedWeightKg ? ` • ~${scanResult.suggestedWeightKg} ${language === 'hi' ? 'किलो' : 'kg'}` : ''}
                       </span>
                     </div>
                   </div>
@@ -478,24 +482,24 @@ export const PhotoCapture: React.FC<PhotoCaptureProps> = ({
           <div className="mt-5 border-t border-emerald-900/10 dark:border-slate-800 pt-4">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2.5">
               <span className="text-[11px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
-                Test with verified e-waste sample photos:
+                {language === 'hi' ? 'सत्यापित ई-कचरा नमूना फोटो के साथ टेस्ट करें:' : 'Test with verified e-waste sample photos:'}
               </span>
               <span className="text-[10px] text-slate-500 dark:text-slate-400">
-                Click any photo to simulate instant AI scanning
+                {language === 'hi' ? 'त्वरित AI स्कैनिंग अनुकरण के लिए किसी भी फोटो पर क्लिक करें' : 'Click any photo to simulate instant AI scanning'}
               </span>
             </div>
 
             {/* Category Filter Tabs for Samples */}
             <div className="flex gap-1.5 overflow-x-auto pb-2 mb-2.5 scrollbar-thin">
               {[
-                { id: 'all', label: 'All Samples' },
-                { id: 'cables_adapters', label: 'Adapters & Cables' },
-                { id: 'laptops_computers', label: 'Motherboards/PCs' },
-                { id: 'smartphones_tablets', label: 'Smartphones' },
-                { id: 'batteries_ups', label: 'UPS/Batteries' },
-                { id: 'monitors_tvs', label: 'Screens & TVs' },
-                { id: 'large_appliances', label: 'White Goods/AC' },
-                { id: 'small_gadgets', label: 'Small Gadgets' },
+                { id: 'all', label: language === 'hi' ? 'सभी नमूने' : 'All Samples' },
+                { id: 'cables_adapters', label: language === 'hi' ? 'एडेप्टर और केबल' : 'Adapters & Cables' },
+                { id: 'laptops_computers', label: language === 'hi' ? 'मदरबोर्ड/पीसी' : 'Motherboards/PCs' },
+                { id: 'smartphones_tablets', label: language === 'hi' ? 'स्मार्टफोन' : 'Smartphones' },
+                { id: 'batteries_ups', label: language === 'hi' ? 'यूपीएस/बैटरी' : 'UPS/Batteries' },
+                { id: 'monitors_tvs', label: language === 'hi' ? 'स्क्रीन और टीवी' : 'Screens & TVs' },
+                { id: 'large_appliances', label: language === 'hi' ? 'एसी/फ्रिज' : 'White Goods/AC' },
+                { id: 'small_gadgets', label: language === 'hi' ? 'छोटे गैजेट्स' : 'Small Gadgets' },
               ].map((tab) => {
                 const isActive = sampleFilterTab === tab.id;
                 return (
@@ -534,13 +538,13 @@ export const PhotoCapture: React.FC<PhotoCaptureProps> = ({
                   />
                   <div className="min-w-0 flex-1">
                     <div className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate">
-                      {sample.name}
+                      {language === 'hi' && sample.nameHindi ? sample.nameHindi : sample.name}
                     </div>
                     <div className="text-[10px] text-slate-500 dark:text-slate-400 line-clamp-2 mt-0.5 leading-snug">
-                      {sample.description}
+                      {language === 'hi' && sample.descriptionHindi ? sample.descriptionHindi : sample.description}
                     </div>
                     <div className="mt-1 flex items-center gap-1 text-[10px] font-bold text-emerald-700 dark:text-emerald-400">
-                      <span>Auto-scan sample</span>
+                      <span>{language === 'hi' ? 'ऑटो-स्कैन नमूना' : 'Auto-scan sample'}</span>
                       <span>→</span>
                     </div>
                   </div>
@@ -558,10 +562,10 @@ export const PhotoCapture: React.FC<PhotoCaptureProps> = ({
             <div>
               <span className="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
                 <SlidersHorizontal className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
-                Scrap Category Selection {photoUrl && '(Manual Override)'}
+                {language === 'hi' ? `स्क्रैप श्रेणी चयन ${photoUrl ? '(मैन्युअल)' : ''}` : `Scrap Category Selection ${photoUrl ? '(Manual Override)' : ''}`}
               </span>
               <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                Choose the primary scrap material you want picked up
+                {language === 'hi' ? 'वह प्राथमिक स्क्रैप सामग्री चुनें जिसे आप पिकअप करवाना चाहते हैं' : 'Choose the primary scrap material you want picked up'}
               </p>
             </div>
             {photoUrl && (
@@ -570,7 +574,7 @@ export const PhotoCapture: React.FC<PhotoCaptureProps> = ({
                 onClick={() => setShowOverrideMenu(false)}
                 className="text-xs font-semibold text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 cursor-pointer"
               >
-                Close
+                {language === 'hi' ? 'बंद करें' : 'Close'}
               </button>
             )}
           </div>
@@ -600,22 +604,22 @@ export const PhotoCapture: React.FC<PhotoCaptureProps> = ({
                   )}
                   <div className="min-w-0 flex-1">
                     <div className="flex w-full items-center justify-between gap-1">
-                      <span className="text-xs font-bold text-slate-900 dark:text-white truncate">{cat.name}</span>
+                      <span className="text-xs font-bold text-slate-900 dark:text-white truncate">{language === 'hi' ? (cat.hindiName || cat.name) : cat.name}</span>
                       <span
                         className={`text-[11px] font-extrabold shrink-0 ${
                           isSelected ? 'text-emerald-700 dark:text-emerald-400' : 'text-slate-600 dark:text-slate-400'
                         }`}
                       >
-                        ₹{cat.ratePerKg}/kg
+                        ₹{cat.ratePerKg}/{language === 'hi' ? 'किलो' : 'kg'}
                       </span>
                     </div>
                     <span className="mt-0.5 text-[10px] text-slate-500 dark:text-slate-400 line-clamp-1 block">
-                      {cat.commonItems.slice(0, 2).join(', ')}
+                      {(language === 'hi' && cat.commonItemsHindi ? cat.commonItemsHindi : cat.commonItems).slice(0, 2).join(', ')}
                     </span>
                     {isSelected && (
                       <span className="mt-1 inline-flex items-center gap-1 text-[10px] font-bold text-emerald-800 dark:text-emerald-300">
                         <CheckCircle2 className="h-3 w-3" />
-                        Active Selection
+                        {language === 'hi' ? 'सक्रिय चयन' : 'Active Selection'}
                       </span>
                     )}
                   </div>
@@ -630,10 +634,10 @@ export const PhotoCapture: React.FC<PhotoCaptureProps> = ({
       {!showOverrideMenu && photoUrl && (
         <div className="flex items-center justify-between rounded-xl bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800 px-3.5 py-2 text-xs">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-emerald-900 dark:text-emerald-200">Current Category:</span>
-            <span className="font-extrabold text-emerald-800 dark:text-emerald-300">{currentCategoryObj.name}</span>
+            <span className="font-bold text-emerald-900 dark:text-emerald-200">{language === 'hi' ? 'वर्तमान श्रेणी:' : 'Current Category:'}</span>
+            <span className="font-extrabold text-emerald-800 dark:text-emerald-300">{language === 'hi' ? (currentCategoryObj.hindiName || currentCategoryObj.name) : currentCategoryObj.name}</span>
             <span className="rounded bg-emerald-200/60 dark:bg-emerald-900 px-1.5 py-0.5 font-bold text-emerald-900 dark:text-emerald-200">
-              ₹{currentCategoryObj.ratePerKg}/kg
+              ₹{currentCategoryObj.ratePerKg}/{language === 'hi' ? 'किलो' : 'kg'}
             </span>
           </div>
           <button
@@ -641,7 +645,7 @@ export const PhotoCapture: React.FC<PhotoCaptureProps> = ({
             onClick={() => setShowOverrideMenu(true)}
             className="text-emerald-700 dark:text-emerald-400 font-bold hover:underline cursor-pointer"
           >
-            Change
+            {language === 'hi' ? 'बदलें' : 'Change'}
           </button>
         </div>
       )}

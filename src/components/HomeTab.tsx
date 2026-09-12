@@ -94,11 +94,11 @@ export const HomeTab: React.FC<HomeTabProps> = ({ onNavigateToPickup }) => {
           {/* Quick Metrics */}
           <div className="mt-8 pt-6 border-t border-emerald-800/40 grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
             <div>
-              <div className="text-xl sm:text-2xl font-black text-emerald-300">7+ Types</div>
+              <div className="text-xl sm:text-2xl font-black text-emerald-300">{language === 'hi' ? '7+ श्रेणियां' : '7+ Types'}</div>
               <div className="text-emerald-100/70 font-medium">{language === 'hi' ? 'ई-कचरा श्रेणियां' : 'E-Waste Categories'}</div>
             </div>
             <div>
-              <div className="text-xl sm:text-2xl font-black text-emerald-300">₹185/kg</div>
+              <div className="text-xl sm:text-2xl font-black text-emerald-300">{language === 'hi' ? '₹185/किलो' : '₹185/kg'}</div>
               <div className="text-emerald-100/70 font-medium">{language === 'hi' ? 'औसत पीसीबी भुगतान' : 'Avg PCB Recovery Payout'}</div>
             </div>
             <div>
@@ -163,7 +163,9 @@ export const HomeTab: React.FC<HomeTabProps> = ({ onNavigateToPickup }) => {
             </p>
             <div className="mt-3 pt-3 border-t border-slate-200/60 dark:border-slate-700 flex items-center justify-between text-[11px] font-semibold">
               <span className="text-slate-500 dark:text-slate-400">{language === 'hi' ? 'मानक दर:' : 'Benchmark:'}</span>
-              <span className="text-amber-700 dark:text-amber-400 font-mono">MCX Gold ₹7,450/g | Cu ₹780/kg</span>
+              <span className="text-amber-700 dark:text-amber-400 font-mono">
+                {language === 'hi' ? 'MCX सोना ₹7,450/ग्राम | तांबा ₹780/किलो' : 'MCX Gold ₹7,450/g | Cu ₹780/kg'}
+              </span>
             </div>
           </div>
 
@@ -178,12 +180,12 @@ export const HomeTab: React.FC<HomeTabProps> = ({ onNavigateToPickup }) => {
             </div>
             <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
               {language === 'hi'
-                ? 'ई-कचरा नियम 2022 के तहत, ब्रांडों (Dell, Apple, Samsung) को कानूनी रूप से ई-कचरा पुनर्प्राप्ति को फंड करना पड़ता है। अधिकृत रिफाइनर ये ₹18 – ₹55/किग्रा सब्सिडी सीधे नागरिकों को देते हैं।'
+                ? 'ई-कचरा नियम 2022 के तहत, ब्रांडों (Dell, Apple, Samsung) को कानूनी रूप से ई-कचरा पुनर्प्राप्ति को फंड करना पड़ता है। अधिकृत रिफाइनर ये ₹18 – ₹55/किलो सब्सिडी सीधे नागरिकों को देते हैं।'
                 : 'Under the E-Waste Rules 2022, electronic brands (Dell, Apple, Samsung) must legally finance e-waste recovery. Authorized recyclers pass these ₹18 – ₹55/kg EPR compliance subsidies directly to households.'}
             </p>
             <div className="mt-3 pt-3 border-t border-slate-200/60 dark:border-slate-700 flex items-center justify-between text-[11px] font-semibold">
               <span className="text-slate-500 dark:text-slate-400">{language === 'hi' ? 'वैधानिक क्रेडिट:' : 'Statutory Credit:'}</span>
-              <span className="text-emerald-700 dark:text-emerald-400 font-mono">{language === 'hi' ? '+₹18 से ₹55 / किग्रा प्रोत्साहन' : '+₹18 to ₹55 / kg Incentive'}</span>
+              <span className="text-emerald-700 dark:text-emerald-400 font-mono">{language === 'hi' ? '+₹18 से ₹55 / किलो प्रोत्साहन' : '+₹18 to ₹55 / kg Incentive'}</span>
             </div>
           </div>
 
@@ -237,15 +239,15 @@ export const HomeTab: React.FC<HomeTabProps> = ({ onNavigateToPickup }) => {
           {showFormulaModal && (
             <div className="mt-4 pt-4 border-t border-emerald-800/60 text-xs text-emerald-100/90 space-y-2">
               <p>
-                <strong>{language === 'hi' ? '10 किग्रा डेस्कटॉप कंप्यूटर पीसी स्क्रैप का उदाहरण:' : 'Example for 10 kg Desktop Computer PC Scrap:'}</strong>
+                <strong>{language === 'hi' ? '10 किलो डेस्कटॉप कंप्यूटर पीसी स्क्रैप का उदाहरण:' : 'Example for 10 kg Desktop Computer PC Scrap:'}</strong>
               </p>
               <ul className="list-disc pl-5 space-y-1 text-emerald-200/80">
                 {language === 'hi' ? (
                   <>
-                    <li>कैबिनेट शीट मेटल और एल्युमिनियम हीट सिंक (7 किग्रा): ₹40/किग्रा = ₹280</li>
-                    <li>मदरबोर्ड पीसीबी और रैम कार्ड (2 किग्रा @ ₹185/किग्रा): ₹370</li>
-                    <li>कॉपर इंसुलेटेड बिजली केबल (1 किग्रा @ ₹135/किग्रा): ₹135</li>
-                    <li>वैधानिक EPR ब्रांड रिकवरी प्रोत्साहन (10 किग्रा × ₹28/किग्रा): +₹280</li>
+                    <li>कैबिनेट शीट मेटल और एल्युमिनियम हीट सिंक (7 किलो): ₹40/किलो = ₹280</li>
+                    <li>मदरबोर्ड पीसीबी और रैम कार्ड (2 किलो @ ₹185/किलो): ₹370</li>
+                    <li>कॉपर इंसुलेटेड बिजली केबल (1 किलो @ ₹135/किलो): ₹135</li>
+                    <li>वैधानिक EPR ब्रांड रिकवरी प्रोत्साहन (10 किलो × ₹28/किलो): +₹280</li>
                     <li><strong>कुल अनुमानित डोरस्टेप भुगतान: ~₹1,065</strong> (UPI या नकद में तुरंत)।</li>
                   </>
                 ) : (
@@ -275,7 +277,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({ onNavigateToPickup }) => {
             </p>
           </div>
           <span className="self-start sm:self-auto rounded-full bg-emerald-100 dark:bg-emerald-950/80 border border-emerald-300 dark:border-emerald-800 px-3 py-1 text-[11px] font-bold text-emerald-800 dark:text-emerald-300">
-            {language === 'hi' ? 'आज अद्यतन: मानक विनिमय दर' : `Updated Today: ${rateModifier !== 0 ? `${rateModifier > 0 ? '+' : ''}${rateModifier} ₹/kg adjustment active` : 'Standard Exchange Feed'}`}
+            {language === 'hi' ? `आज अद्यतन: ${rateModifier !== 0 ? `${rateModifier > 0 ? '+' : ''}${rateModifier} ₹/किलो समायोजन सक्रिय` : 'मानक विनिमय दर'}` : `Updated Today: ${rateModifier !== 0 ? `${rateModifier > 0 ? '+' : ''}${rateModifier} ₹/kg adjustment active` : 'Standard Exchange Feed'}`}
           </span>
         </div>
 
@@ -310,8 +312,8 @@ export const HomeTab: React.FC<HomeTabProps> = ({ onNavigateToPickup }) => {
                 onClick={() => setSelectedPolicy(policy)}
                 className={`shrink-0 rounded-xl px-3.5 py-2 text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
                   isSelected
-                    ? 'bg-emerald-800 text-white shadow-xs'
-                    : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+                    ? 'bg-emerald-700 dark:bg-emerald-600 text-white shadow-xs ring-2 ring-emerald-500/40'
+                    : 'bg-slate-100 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700'
                 }`}
               >
                 {tabLabel}
@@ -321,14 +323,14 @@ export const HomeTab: React.FC<HomeTabProps> = ({ onNavigateToPickup }) => {
         </div>
 
         {/* Selected Policy Detail Card */}
-        <div className="mt-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-850 p-4 sm:p-6 overflow-hidden">
+        <div className="mt-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-900/90 p-4 sm:p-6 overflow-hidden">
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
             <div className="min-w-0 flex-1">
               <div className="flex flex-wrap items-center gap-1.5 mb-2">
                 <span className="rounded-md bg-emerald-100 dark:bg-emerald-950/80 border border-emerald-300 dark:border-emerald-800 px-2 py-0.5 text-[11px] font-bold text-emerald-800 dark:text-emerald-300 shrink-0">
                   {selectedPolicy.year}
                 </span>
-                <span className="rounded-md bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 px-2 py-0.5 text-[11px] font-medium text-emerald-800 dark:text-emerald-300 break-words max-w-full">
+                <span className="rounded-md bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800/80 px-2 py-0.5 text-[11px] font-medium text-emerald-800 dark:text-emerald-300 break-words max-w-full">
                   {language === 'hi' ? (selectedPolicy.authorityHindi || selectedPolicy.authority) : selectedPolicy.authority}
                 </span>
               </div>
@@ -352,7 +354,7 @@ export const HomeTab: React.FC<HomeTabProps> = ({ onNavigateToPickup }) => {
                 <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
                 {language === 'hi' ? 'घरों व नागरिकों के लिए इसका अर्थ' : 'What it means for Households'}
               </h4>
-              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
                 {language === 'hi' ? (selectedPolicy.citizenRelevanceHindi || selectedPolicy.citizenRelevance) : selectedPolicy.citizenRelevance}
               </p>
             </div>
@@ -362,19 +364,19 @@ export const HomeTab: React.FC<HomeTabProps> = ({ onNavigateToPickup }) => {
                 <Coins className="h-4 w-4 text-amber-600 dark:text-amber-400 shrink-0" />
                 {language === 'hi' ? 'प्रोत्साहन एवं कानूनी प्रावधान' : 'Incentives & Legal Directives'}
               </h4>
-              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
                 {language === 'hi' ? (selectedPolicy.penaltiesOrIncentivesHindi || selectedPolicy.penaltiesOrIncentives) : selectedPolicy.penaltiesOrIncentives}
               </p>
             </div>
           </div>
 
-          <div className="mt-4 pt-4 border-t border-slate-200/70 dark:border-slate-750">
+          <div className="mt-4 pt-4 border-t border-slate-200/70 dark:border-slate-800">
             <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200 mb-2">
               {language === 'hi' ? 'प्रमुख निर्देश और सुरक्षा उपाय:' : 'Key Directives & Safeguards:'}
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
               {(language === 'hi' && selectedPolicy.keyDirectivesHindi ? selectedPolicy.keyDirectivesHindi : selectedPolicy.keyDirectives).map((directive, i) => (
-                <div key={i} className="flex items-start gap-2 text-xs text-slate-600 dark:text-slate-400 bg-white dark:bg-slate-800 p-3 rounded-xl border border-slate-200 dark:border-slate-700">
+                <div key={i} className="flex items-start gap-2 text-xs text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 p-3 rounded-xl border border-slate-200 dark:border-slate-700">
                   <ChevronRight className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                   <span className="leading-relaxed break-words">{directive}</span>
                 </div>

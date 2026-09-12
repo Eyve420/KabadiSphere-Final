@@ -3,6 +3,7 @@ import { ScrapCategory, ScrapCategoryId } from '../types';
 import { SCRAP_CATEGORIES } from '../data/scrapData';
 import { TrendingUp, TrendingDown, Calendar, Factory } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import { useDarkMode } from '../hooks/useDarkMode';
 import { motion, AnimatePresence } from 'motion/react';
 
 interface MarketRatesChartProps {
@@ -17,12 +18,14 @@ export const MarketRatesChart: React.FC<MarketRatesChartProps> = ({
   onSelectCategoryForPickup,
 }) => {
   const { language } = useLanguage();
+  const isDark = useDarkMode();
   const [viewMode, setViewMode] = useState<'weekly' | 'monthly'>('weekly');
   const [selectedCategory, setSelectedCategory] = useState<ScrapCategoryId>('laptops_computers');
   const [hoveredPointIndex, setHoveredPointIndex] = useState<number | null>(null);
 
   const activeCategory = categories.find((c) => c.id === selectedCategory) || categories[0];
   const historyData = viewMode === 'weekly' ? activeCategory.weeklyHistory : activeCategory.monthlyHistory;
+  const chartStrokeColor = isDark ? (activeCategory.darkColor || '#34d399') : activeCategory.color;
 
   const handleBookingClick = (catId: ScrapCategoryId) => {
     if (onSelectCategoryForPickup) {
@@ -94,17 +97,17 @@ export const MarketRatesChart: React.FC<MarketRatesChartProps> = ({
               }}
               className={`flex shrink-0 items-center gap-2 rounded-xl px-3.5 py-2 text-xs font-medium transition-all cursor-pointer ${
                 isSelected
-                  ? 'bg-emerald-800 text-white shadow-sm ring-2 ring-emerald-700/30'
-                  : 'bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200/80 dark:border-slate-700'
+                  ? 'bg-emerald-700 dark:bg-emerald-600 text-white shadow-sm ring-2 ring-emerald-500/40 font-semibold'
+                  : 'bg-slate-50 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 border border-slate-200/80 dark:border-slate-700'
               }`}
             >
               <span>{label}</span>
               <span
                 className={`rounded-md px-1.5 py-0.5 text-[11px] font-bold ${
-                  isSelected ? 'bg-emerald-950/40 text-emerald-100' : 'bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-600'
+                  isSelected ? 'bg-emerald-950/50 dark:bg-emerald-950/80 text-emerald-100' : 'bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-600'
                 }`}
               >
-                ₹{cat.ratePerKg}/kg
+                ₹{cat.ratePerKg}/{language === 'hi' ? 'किलो' : 'kg'}
               </span>
             </button>
           );
@@ -112,14 +115,14 @@ export const MarketRatesChart: React.FC<MarketRatesChartProps> = ({
       </div>
 
       {/* Chart Visualizer */}
-      <div className="mt-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-850 p-4 sm:p-5">
+      <div className="mt-5 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/90 p-4 sm:p-5 shadow-inner">
         {/* Metric stats row with Refinery Demand and Weekly/Monthly Toggle */}
-        <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-200/60 dark:border-slate-750">
+        <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-200/60 dark:border-slate-800">
           <div className="flex items-center gap-3.5">
             {activeCategory.sampleImageUrl && (
               <img
                 src={activeCategory.sampleImageUrl}
-                alt={activeCategory.name}
+                alt={language === 'hi' ? (activeCategory.hindiName || activeCategory.name) : activeCategory.name}
                 referrerPolicy="no-referrer"
                 className="h-14 w-14 shrink-0 rounded-xl object-cover border border-slate-200 dark:border-slate-700 shadow-2xs"
               />
@@ -149,7 +152,7 @@ export const MarketRatesChart: React.FC<MarketRatesChartProps> = ({
                 </span>
               </div>
               <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
-                {activeCategory.sampleImageCaption || (language === 'hi' ? `खरीद बैंड: ₹${activeCategory.minRate} - ₹${activeCategory.maxRate}/किग्रा` : `Procurement band: ₹${activeCategory.minRate} - ₹${activeCategory.maxRate}/kg`)}
+                {(language === 'hi' ? activeCategory.sampleImageCaptionHindi : activeCategory.sampleImageCaption) || (language === 'hi' ? `खरीद बैंड: ₹${activeCategory.minRate} - ₹${activeCategory.maxRate}/किलो` : `Procurement band: ₹${activeCategory.minRate} - ₹${activeCategory.maxRate}/kg`)}
               </p>
             </div>
           </div>
@@ -158,7 +161,9 @@ export const MarketRatesChart: React.FC<MarketRatesChartProps> = ({
             <div className="flex items-center gap-1.5 rounded-xl bg-white dark:bg-slate-800 px-3 py-1.5 border border-slate-200 dark:border-slate-700 shadow-2xs">
               <Factory className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
               <span className="text-slate-600 dark:text-slate-400">{language === 'hi' ? 'रिफाइनरी मांग:' : 'Refinery Demand:'}</span>
-              <span className="font-bold text-emerald-700 dark:text-emerald-400">{activeCategory.plantDemand}</span>
+              <span className="font-bold text-emerald-700 dark:text-emerald-400">
+                {language === 'hi' ? (activeCategory.plantDemandHindi || activeCategory.plantDemand) : activeCategory.plantDemand}
+              </span>
             </div>
 
             {/* Weekly / Monthly Toggle in graph area */}
@@ -172,7 +177,7 @@ export const MarketRatesChart: React.FC<MarketRatesChartProps> = ({
                 }}
                 className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 transition-all cursor-pointer ${
                   viewMode === 'weekly'
-                    ? 'bg-emerald-800 text-white shadow-xs font-bold'
+                    ? 'bg-emerald-700 dark:bg-emerald-600 text-white shadow-xs font-bold'
                     : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
@@ -188,7 +193,7 @@ export const MarketRatesChart: React.FC<MarketRatesChartProps> = ({
                 }}
                 className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 transition-all cursor-pointer ${
                   viewMode === 'monthly'
-                    ? 'bg-emerald-800 text-white shadow-xs font-bold'
+                    ? 'bg-emerald-700 dark:bg-emerald-600 text-white shadow-xs font-bold'
                     : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
@@ -217,9 +222,12 @@ export const MarketRatesChart: React.FC<MarketRatesChartProps> = ({
               >
                 <defs>
                   <linearGradient id={`grad-${activeCategory.id}`} x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor={activeCategory.color} stopOpacity="0.25" />
-                    <stop offset="100%" stopColor={activeCategory.color} stopOpacity="0.0" />
+                    <stop offset="0%" stopColor={chartStrokeColor} stopOpacity={isDark ? "0.38" : "0.25"} />
+                    <stop offset="100%" stopColor={chartStrokeColor} stopOpacity="0.0" />
                   </linearGradient>
+                  <filter id="chart-glow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor={chartStrokeColor} floodOpacity={isDark ? "0.5" : "0.2"} />
+                  </filter>
                 </defs>
 
                 {/* Background grid lines */}
@@ -234,7 +242,7 @@ export const MarketRatesChart: React.FC<MarketRatesChartProps> = ({
                         x2={width - paddingX}
                         y2={y}
                         stroke="currentColor"
-                        className="text-slate-200 dark:text-slate-700/70"
+                        className="text-slate-200 dark:text-slate-800"
                         strokeDasharray="4 4"
                         strokeWidth="1"
                       />
@@ -242,7 +250,7 @@ export const MarketRatesChart: React.FC<MarketRatesChartProps> = ({
                         x={paddingX - 8}
                         y={y + 3}
                         textAnchor="end"
-                        className="fill-slate-400 dark:fill-slate-500 font-mono"
+                        className="fill-slate-400 dark:fill-slate-400 font-mono"
                         fontSize="10"
                         fontWeight="500"
                       >
@@ -261,17 +269,18 @@ export const MarketRatesChart: React.FC<MarketRatesChartProps> = ({
                   fill={`url(#grad-${activeCategory.id})`}
                 />
 
-                {/* Main Trend Line */}
+                {/* Main Trend Line with luminous glow in dark mode */}
                 <motion.path
                   initial={{ pathLength: 0, opacity: 0.4 }}
                   animate={{ pathLength: 1, opacity: 1 }}
                   transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
                   d={linePath}
                   fill="none"
-                  stroke={activeCategory.color}
-                  strokeWidth="3"
+                  stroke={chartStrokeColor}
+                  strokeWidth="3.2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
+                  filter="url(#chart-glow)"
                 />
 
                 {/* Data Points */}
@@ -286,9 +295,10 @@ export const MarketRatesChart: React.FC<MarketRatesChartProps> = ({
                           y1={paddingY}
                           x2={pt.x}
                           y2={height - paddingY}
-                          stroke={activeCategory.color}
+                          stroke={chartStrokeColor}
                           strokeDasharray="2 2"
                           strokeWidth="1.5"
+                          opacity={isDark ? 0.9 : 0.7}
                         />
                       )}
 
@@ -299,10 +309,10 @@ export const MarketRatesChart: React.FC<MarketRatesChartProps> = ({
                         transition={{ delay: Math.min(i * 0.02, 0.22), duration: 0.2, ease: 'easeOut' }}
                         cx={pt.x}
                         cy={pt.y}
-                        r={isHovered ? 6 : 4}
-                        fill="#ffffff"
-                        stroke={activeCategory.color}
-                        strokeWidth={isHovered ? 3 : 2}
+                        r={isHovered ? 6.5 : 4.5}
+                        fill={isDark ? "#0f172a" : "#ffffff"}
+                        stroke={chartStrokeColor}
+                        strokeWidth={isHovered ? 3.5 : 2.5}
                         className="transition-all duration-150"
                       />
 
@@ -348,7 +358,7 @@ export const MarketRatesChart: React.FC<MarketRatesChartProps> = ({
                 }}
               >
                 <div className="font-semibold">{points[hoveredPointIndex].label}</div>
-                <div className="font-bold text-emerald-400">₹{points[hoveredPointIndex].rate.toFixed(1)} / kg</div>
+                <div className="font-bold text-emerald-400">₹{points[hoveredPointIndex].rate.toFixed(1)} / {language === 'hi' ? 'किलो' : 'kg'}</div>
               </motion.div>
             )}
           </AnimatePresence>
@@ -360,7 +370,7 @@ export const MarketRatesChart: React.FC<MarketRatesChartProps> = ({
             <span className="text-[10px] font-bold uppercase text-amber-700 dark:text-amber-400 block mb-1">
               {language === 'hi' ? 'पुनर्प्राप्त धातुएं' : 'Recoverable Metals'}
             </span>
-            <span className="font-semibold text-slate-800 dark:text-slate-200">{activeCategory.preciousMetalsRecoverable}</span>
+            <span className="font-semibold text-slate-800 dark:text-slate-200">{language === 'hi' && activeCategory.preciousMetalsRecoverableHindi ? activeCategory.preciousMetalsRecoverableHindi : activeCategory.preciousMetalsRecoverable}</span>
           </div>
 
           <div className="rounded-xl bg-white dark:bg-slate-800 p-3 border border-slate-200 dark:border-slate-700 shadow-2xs">
@@ -368,7 +378,7 @@ export const MarketRatesChart: React.FC<MarketRatesChartProps> = ({
               {language === 'hi' ? 'सरकारी EPR क्रेडिट सब्सिडी' : 'Govt EPR Credit Subsidy'}
             </span>
             <span className="font-semibold text-slate-800 dark:text-slate-200">
-              {language === 'hi' ? `+₹${activeCategory.eprCreditPerKg} / किग्रा ब्रांड अनुपालन प्रोत्साहन` : `+₹${activeCategory.eprCreditPerKg} / kg Brand Compliance Incentive`}
+              {language === 'hi' ? `+₹${activeCategory.eprCreditPerKg} / किलो ब्रांड अनुपालन प्रोत्साहन` : `+₹${activeCategory.eprCreditPerKg} / kg Brand Compliance Incentive`}
             </span>
           </div>
 
@@ -376,7 +386,7 @@ export const MarketRatesChart: React.FC<MarketRatesChartProps> = ({
             <span className="text-[10px] font-bold uppercase text-rose-700 dark:text-rose-400 block mb-1">
               {language === 'hi' ? 'निष्प्रभावी किए जाने वाले विषैले घटक' : 'Hazardous Toxins Neutralized'}
             </span>
-            <span className="font-semibold text-slate-800 dark:text-slate-200">{activeCategory.hazardousComponents}</span>
+            <span className="font-semibold text-slate-800 dark:text-slate-200">{language === 'hi' && activeCategory.hazardousComponentsHindi ? activeCategory.hazardousComponentsHindi : activeCategory.hazardousComponents}</span>
           </div>
         </div>
       </div>
@@ -389,8 +399,8 @@ export const MarketRatesChart: React.FC<MarketRatesChartProps> = ({
             id={`card-market-cat-${cat.id}`}
             className={`rounded-2xl border p-4 transition-all ${
               cat.id === selectedCategory
-                ? 'border-emerald-500 bg-emerald-50/20 dark:bg-emerald-950/30 shadow-xs'
-                : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-850 hover:border-slate-300 dark:hover:border-slate-700'
+                ? 'border-emerald-500 bg-emerald-50/25 dark:bg-emerald-950/40 shadow-xs ring-1 ring-emerald-500/30'
+                : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 hover:border-slate-300 dark:hover:border-slate-700'
             }`}
           >
             <div className="flex items-start justify-between gap-2.5">
@@ -407,27 +417,26 @@ export const MarketRatesChart: React.FC<MarketRatesChartProps> = ({
                   <h3 className="text-sm font-bold text-slate-900 dark:text-white truncate">
                     {language === 'hi' ? (cat.hindiName || cat.name) : cat.name}
                   </h3>
-                  {language === 'hi' ? (
-                    <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium block truncate">{cat.name}</span>
-                  ) : (
-                    cat.hindiName && (
-                      <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium block">{cat.hindiName}</span>
-                    )
-                  )}
+                  {/* Language-consistent contextual subtitle: shows English in English mode, Hindi in Hindi mode */}
+                  <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium block truncate">
+                    {language === 'hi'
+                      ? (cat.subtitleHi || 'सत्यापित ई-कचरा श्रेणी')
+                      : (cat.subtitleEn || 'Verified E-Waste Recyclable')}
+                  </span>
                 </div>
               </div>
-              <span className={`rounded-md px-2 py-0.5 text-xs font-extrabold shrink-0 ${cat.badgeBg}`}>
-                ₹{cat.ratePerKg}/kg
+              <span className={`rounded-md px-2 py-0.5 text-xs font-extrabold shrink-0 border ${cat.badgeBg} ${cat.darkBadgeBg || 'dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700'}`}>
+                ₹{cat.ratePerKg}/{language === 'hi' ? 'किलो' : 'kg'}
               </span>
             </div>
 
-            <p className="mt-2 text-xs text-slate-600 dark:text-slate-400 line-clamp-2">{cat.description}</p>
+            <p className="mt-2 text-xs text-slate-600 dark:text-slate-300 line-clamp-2">{language === 'hi' && cat.descriptionHindi ? cat.descriptionHindi : cat.description}</p>
 
             <div className="mt-3 flex flex-wrap gap-1">
-              {cat.commonItems.slice(0, 2).map((item, idx) => (
+              {(language === 'hi' && cat.commonItemsHindi ? cat.commonItemsHindi : cat.commonItems).slice(0, 2).map((item, idx) => (
                 <span
                   key={idx}
-                  className="rounded-md bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 text-[10px] text-slate-600 dark:text-slate-300 border border-slate-200/50 dark:border-slate-700"
+                  className="rounded-md bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 text-[10px] text-slate-600 dark:text-slate-300 border border-slate-200/60 dark:border-slate-700"
                 >
                   {item}
                 </span>
@@ -455,3 +464,4 @@ export const MarketRatesChart: React.FC<MarketRatesChartProps> = ({
     </div>
   );
 };
+

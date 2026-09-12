@@ -61,7 +61,7 @@ export const PayoutEstimateCard: React.FC<PayoutEstimateCardProps> = ({
               </div>
               <p className="mt-1 text-xs text-emerald-100/80">
                 {language === 'hi'
-                  ? `~${estimatedKg} किग्रा ${category.hindiName || category.name} के लिए ₹${category.ratePerKg}/किग्रा की मानक बाजार दर पर आकलित।`
+                  ? `~${estimatedKg} किलो ${category.hindiName || category.name} के लिए ₹${category.ratePerKg}/किलो की मानक बाजार दर पर आकलित।`
                   : `Calculated for ~${estimatedKg} kg of ${category.name} at standard market rate of ₹${category.ratePerKg}/kg.`}
               </p>
             </div>

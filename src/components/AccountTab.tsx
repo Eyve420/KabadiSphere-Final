@@ -89,7 +89,7 @@ export const AccountTab: React.FC<AccountTabProps> = ({
               </span>
               <div className="mt-1 flex items-baseline gap-1">
                 <span className="text-2xl font-black text-white">{totalWeightKg}</span>
-                <span className="text-xs font-semibold text-emerald-300">kg</span>
+                <span className="text-xs font-semibold text-emerald-300">{language === 'hi' ? 'किलो' : 'kg'}</span>
               </div>
               <span className="text-[10px] text-emerald-400 font-medium">
                 {language === 'hi' ? '100% शून्य लैंडफिल' : '100% Zero-Landfill'}
@@ -114,7 +114,7 @@ export const AccountTab: React.FC<AccountTabProps> = ({
               </span>
               <div className="mt-1 flex items-baseline gap-1">
                 <span className="text-2xl font-black text-white">{Math.round(totalWeightKg * 0.08 * 10) / 10}</span>
-                <span className="text-xs font-semibold text-emerald-300">kg</span>
+                <span className="text-xs font-semibold text-emerald-300">{language === 'hi' ? 'किलो' : 'kg'}</span>
               </div>
               <span className="text-[10px] text-emerald-400 font-medium">
                 {language === 'hi' ? 'मिट्टी में मिलने से बचाया' : 'Prevented in Soil'}
@@ -316,7 +316,7 @@ export const AccountTab: React.FC<AccountTabProps> = ({
                               {order.categoryName}
                             </span>
                             <span className="rounded-md bg-slate-100 dark:bg-slate-800 px-2 py-0.5 text-[11px] font-semibold text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
-                              ~{order.estimatedKg} kg ({order.weightCategory} {language === 'hi' ? 'स्लैब' : 'bracket'})
+                              ~{order.estimatedKg} {language === 'hi' ? 'किलो' : 'kg'} ({order.weightCategory} {language === 'hi' ? 'स्लैब' : 'bracket'})
                             </span>
                           </div>
 
@@ -478,7 +478,7 @@ export const AccountTab: React.FC<AccountTabProps> = ({
                   <span className="text-slate-500 dark:text-slate-400 block">
                     {language === 'hi' ? 'शुद्ध वजन' : 'Net Weight Diverted'}
                   </span>
-                  <span className="font-bold text-emerald-800 dark:text-emerald-300">{viewingCertificateOrder.estimatedKg} kg</span>
+                  <span className="font-bold text-emerald-800 dark:text-emerald-300">{viewingCertificateOrder.estimatedKg} {language === 'hi' ? 'किलो' : 'kg'}</span>
                 </div>
                 <div>
                   <span className="text-slate-500 dark:text-slate-400 block">

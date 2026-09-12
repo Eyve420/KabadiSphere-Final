@@ -59,7 +59,7 @@ export const RecyclingImpactBanner: React.FC<RecyclingImpactBannerProps> = ({
             <Wind className="h-4 w-4 text-sky-600 dark:text-sky-400" />
             {language === 'hi' ? 'CO₂ भरपाई' : 'CO₂ Offset'}
           </div>
-          <div className="mt-1 text-2xl font-black text-slate-900 dark:text-white">{co2PreventedKg} kg</div>
+          <div className="mt-1 text-2xl font-black text-slate-900 dark:text-white">{co2PreventedKg} {language === 'hi' ? 'किलो' : 'kg'}</div>
           <span className="text-[10px] text-sky-700 dark:text-sky-400 font-semibold">
             {language === 'hi' ? 'उत्सर्जन से बचाव' : 'Greenhouse gas averted'}
           </span>
@@ -70,7 +70,7 @@ export const RecyclingImpactBanner: React.FC<RecyclingImpactBannerProps> = ({
             <Recycle className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
             {language === 'hi' ? 'पुनर्चक्रित कचरा' : 'Scrap Recycled'}
           </div>
-          <div className="mt-1 text-2xl font-black text-slate-900 dark:text-white">{totalKgRecycled} kg</div>
+          <div className="mt-1 text-2xl font-black text-slate-900 dark:text-white">{totalKgRecycled} {language === 'hi' ? 'किलो' : 'kg'}</div>
           <span className="text-[10px] text-emerald-700 dark:text-emerald-400 font-semibold">
             {language === 'hi' ? 'लैंडफिल से हटाया गया' : 'Diverted from city landfills'}
           </span>

@@ -157,7 +157,7 @@ export const WeightCategorySelector: React.FC<WeightCategorySelectorProps> = ({
           </div>
           <div className="flex items-baseline gap-1 rounded-lg bg-emerald-700 dark:bg-emerald-600 px-3 py-1 text-white shadow-2xs">
             <span className="text-lg font-black">{estimatedKg}</span>
-            <span className="text-xs font-bold">{language === 'hi' ? 'किग्रा' : 'kg'}</span>
+            <span className="text-xs font-bold">{language === 'hi' ? 'किलो' : 'kg'}</span>
           </div>
         </div>
 
@@ -173,9 +173,9 @@ export const WeightCategorySelector: React.FC<WeightCategorySelectorProps> = ({
             className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-slate-200 dark:bg-slate-700 accent-emerald-700 dark:accent-emerald-500"
           />
           <div className="mt-1 flex justify-between text-[11px] font-medium text-slate-600 dark:text-slate-400">
-            <span>{currentCategory.minKg} kg</span>
-            <span className="font-bold text-emerald-800 dark:text-emerald-400">{estimatedKg} kg</span>
-            <span>{currentCategory.maxKg} kg</span>
+            <span>{currentCategory.minKg} {language === 'hi' ? 'किलो' : 'kg'}</span>
+            <span className="font-bold text-emerald-800 dark:text-emerald-400">{estimatedKg} {language === 'hi' ? 'किलो' : 'kg'}</span>
+            <span>{currentCategory.maxKg} {language === 'hi' ? 'किलो' : 'kg'}</span>
           </div>
         </div>
       </div>

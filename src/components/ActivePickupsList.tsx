@@ -76,13 +76,13 @@ export const ActivePickupsList: React.FC<ActivePickupsListProps> = ({
               }`}
             >
               {/* Order Card Header */}
-              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-850 px-5 py-3 text-xs">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900 px-5 py-3 text-xs">
                 <div className="flex items-center gap-2">
                   <span className="font-extrabold text-slate-900 dark:text-white tracking-wide">
                     {language === 'hi' ? 'ऑर्डर' : 'Order'} #{order.id}
                   </span>
                   <span className="text-slate-400 dark:text-slate-600">•</span>
-                  <span className="text-slate-500 dark:text-slate-400">{order.createdAt}</span>
+                  <span className="text-slate-500 dark:text-slate-400">{language === 'hi' && order.createdAtHindi ? order.createdAtHindi : order.createdAt}</span>
                 </div>
 
                 <div className="flex items-center gap-2">
@@ -123,12 +123,12 @@ export const ActivePickupsList: React.FC<ActivePickupsListProps> = ({
                         {language === 'hi' ? 'कचरा श्रेणी एवं वजन' : 'Scrap Category & Weight'}
                       </span>
                       <div className="mt-1 text-base font-bold text-slate-900 dark:text-white">
-                        {order.categoryName}
+                        {language === 'hi' && order.categoryNameHindi ? order.categoryNameHindi : order.categoryName}
                       </div>
                       <div className="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-400 mt-0.5">
                         <Scale className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
                         <span>
-                          {order.weightCategory.toUpperCase()} {language === 'hi' ? 'स्लैब' : 'bracket'} (~{order.estimatedKg} kg)
+                          {order.weightCategory.toUpperCase()} {language === 'hi' ? 'स्लैब' : 'bracket'} (~{order.estimatedKg} {language === 'hi' ? 'किलो' : 'kg'})
                         </span>
                       </div>
                     </div>
@@ -156,7 +156,7 @@ export const ActivePickupsList: React.FC<ActivePickupsListProps> = ({
                       </span>
                       <div className="mt-1 flex items-center gap-1.5 text-xs font-bold text-slate-800 dark:text-slate-200">
                         <Calendar className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
-                        <span>{language === 'hi' ? 'दिनांक:' : 'Date:'} {order.pickupDate}</span>
+                        <span>{language === 'hi' ? 'दिनांक:' : 'Date:'} {language === 'hi' && order.pickupDateHindi ? order.pickupDateHindi : order.pickupDate}</span>
                       </div>
                       <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 mt-0.5">
                         <Clock className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
@@ -188,7 +188,7 @@ export const ActivePickupsList: React.FC<ActivePickupsListProps> = ({
                   </div>
 
                   {/* Right: Assigned Collector & Doorstep OTP */}
-                  <div className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-850 p-3.5 flex flex-col justify-between">
+                  <div className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/90 p-3.5 flex flex-col justify-between">
                     <div>
                       <div className="flex items-center justify-between">
                         <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
@@ -220,7 +220,7 @@ export const ActivePickupsList: React.FC<ActivePickupsListProps> = ({
                     </div>
 
                     {/* Doorstep OTP */}
-                    <div className="mt-3 rounded-lg bg-white dark:bg-slate-900 p-2.5 border border-slate-200 dark:border-slate-750 shadow-2xs flex items-center justify-between">
+                    <div className="mt-3 rounded-lg bg-white dark:bg-slate-900 p-2.5 border border-slate-200 dark:border-slate-800 shadow-2xs flex items-center justify-between">
                       <div>
                         <span className="text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wide flex items-center gap-1">
                           <KeyRound className="h-3 w-3 text-amber-600 dark:text-amber-400" />

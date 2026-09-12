@@ -112,9 +112,9 @@ const translations: Record<Language, Record<string, string>> = {
     step5Subtitle: 'पहुंचने पर कलेक्टर आपसे सीधे संपर्क करेगा। शून्य लॉजिस्टिक्स शुल्क।',
 
     // Weight brackets
-    weightLight: 'हल्का भार (< 10 किग्रा)',
-    weightMedium: 'मध्यम भार (10 – 50 किग्रा)',
-    weightBulk: 'थोक / भारी स्क्रैप (> 50 किग्रा)',
+    weightLight: 'हल्का भार (< 10 किलो)',
+    weightMedium: 'मध्यम भार (10 – 50 किलो)',
+    weightBulk: 'थोक / भारी स्क्रैप (> 50 किलो)',
     autoWeightBadge: 'AI स्कैन द्वारा चयनित',
 
     // Time Slot

@@ -27,7 +27,17 @@ export default function App() {
     const saved = localStorage.getItem('kabadi_sphere_ewaste_orders');
     if (saved) {
       try {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+        // Robust schema validation to prevent crashes from old local storage data
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          const sample = parsed[0];
+          if (!sample.address || typeof sample.address !== 'object' || !sample.address.city || !sample.collector || !sample.collector.name) {
+            console.warn('Old or invalid order schema detected, resetting to initial orders to prevent crash');
+            return INITIAL_ORDERS;
+          }
+          return parsed;
+        }
+        return Array.isArray(parsed) ? parsed : INITIAL_ORDERS;
       } catch {
         return INITIAL_ORDERS;
       }
